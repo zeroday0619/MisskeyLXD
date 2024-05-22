@@ -1,0 +1,37 @@
+name: misskey_base
+description: Misskey LXD profile
+devices:
+  data:
+    path: /data/misskey
+    pool: storage_misskey
+    source: misskey_data
+    type: disk
+  eth0:
+    name: eth0
+    network: lxdbr0
+    type: nic
+  root:
+    path: /
+    pool: storage_misskey
+    type: disk
+config:
+  boot.autostart: "true"
+  limits.cpu: "8"
+  user.network-config: |
+    version: 1
+    config:
+      - type: physical
+        name: eth0
+        subnets:
+          - type: dhcp
+            ipv4: true
+  user.user-data: |
+    #cloud-config
+    package_upgrade: true
+    packages:
+      - build-essential
+      - curl
+      - wget
+      - gnupg
+      - ffmpeg
+used_by: []
